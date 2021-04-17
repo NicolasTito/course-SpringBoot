@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping (value = "/categorias")
 public class CategoriaResources {
-  
-  @RequestMapping (method = RequestMethod.GET)
-  public List <Categoria> listar(){
-    
-    Categoria cat1 = new Categoria(1, "Informática");
-    Categoria cat2 = new Categoria(2, "Escritório");
+	
+	@RequestMapping (method = RequestMethod.GET)
+	public List <Categoria> listar(){
+		
+		Categoria cat1 = new Categoria(1, "Informática");
+		Categoria cat2 = new Categoria(2, "Escritório");
 
-    List<Categoria> lista = new ArrayList<>();
-    lista.add (cat1);
-    lista.add (cat2);
+		List<Categoria> lista = new ArrayList<>();
+		lista.add (cat1);
+		lista.add (cat2);
 
-    return lista;
-  }
+		return lista;
+	}
 }
