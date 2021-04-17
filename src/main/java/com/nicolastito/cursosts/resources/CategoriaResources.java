@@ -1,8 +1,5 @@
 package com.nicolastito.cursosts.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.nicolastito.cursosts.domain.Categoria;
 import com.nicolastito.cursosts.services.CategoriaService;
 
