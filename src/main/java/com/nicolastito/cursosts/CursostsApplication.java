@@ -8,6 +8,7 @@ import com.nicolastito.cursosts.domain.Categoria;
 import com.nicolastito.cursosts.domain.City;
 import com.nicolastito.cursosts.domain.Client;
 import com.nicolastito.cursosts.domain.Order;
+import com.nicolastito.cursosts.domain.OrderItem;
 import com.nicolastito.cursosts.domain.Payment;
 import com.nicolastito.cursosts.domain.PaymentWithBillet;
 import com.nicolastito.cursosts.domain.PaymentWithCard;
@@ -19,6 +20,7 @@ import com.nicolastito.cursosts.repositories.AddressRepository;
 import com.nicolastito.cursosts.repositories.CategoriaRepository;
 import com.nicolastito.cursosts.repositories.CityRepository;
 import com.nicolastito.cursosts.repositories.ClientRepository;
+import com.nicolastito.cursosts.repositories.OrderItemRepository;
 import com.nicolastito.cursosts.repositories.OrderRepository;
 import com.nicolastito.cursosts.repositories.PaymentRepository;
 import com.nicolastito.cursosts.repositories.ProductRepository;
@@ -49,6 +51,8 @@ public class CursostsApplication implements CommandLineRunner{
 	private OrderRepository orderRepository;
 	@Autowired
 	private PaymentRepository paymentRepository;
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursostsApplication.class, args);
@@ -61,8 +65,8 @@ public class CursostsApplication implements CommandLineRunner{
 		Categoria cat2 = new Categoria(2, "Desk");
 
 		Product p1 = new Product(null, "Computer", 2000.00);
-		Product p2 = new Product(null, "printer", 200.00);
-		Product p3 = new Product(null, "Mouse", 40.00);
+		Product p2 = new Product(null, "printer", 800.00);
+		Product p3 = new Product(null, "Mouse", 80.00);
 
 		cat1.getProducts().addAll(Arrays.asList(p1, p2, p3));
 		cat2.getProducts().addAll(Arrays.asList(p2));
@@ -112,5 +116,18 @@ public class CursostsApplication implements CommandLineRunner{
 
 		orderRepository.saveAll(Arrays.asList(order1, order2));
 		paymentRepository.saveAll(Arrays.asList(pay1, pay2));
+
+		OrderItem oI1 = new OrderItem(order1, p1, 0.00, 1, 2000.00);
+		OrderItem oI2 = new OrderItem(order1, p3, 0.00, 2, 80.00);
+		OrderItem oI3 = new OrderItem(order2, p2, 100.00, 1, 800.00);
+
+		order1.getItems().addAll(Arrays.asList(oI1, oI2));
+		order2.getItems().addAll(Arrays.asList(oI3));
+
+		p1.getItems().addAll(Arrays.asList(oI1));
+		p2.getItems().addAll(Arrays.asList(oI3));
+		p3.getItems().addAll(Arrays.asList(oI2));
+
+		orderItemRepository.saveAll(Arrays.asList(oI1, oI2, oI3));
 	}
 }

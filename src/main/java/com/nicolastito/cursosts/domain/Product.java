@@ -2,8 +2,10 @@ package com.nicolastito.cursosts.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -33,9 +36,19 @@ public class Product implements Serializable{
 		)
 	private List<Categoria> categorias = new ArrayList<>();
 
+	@OneToMany (mappedBy = "id.product")
+	private Set<OrderItem> items = new HashSet<>();
+
 	public Product() {
 	}
 
+	public List<Order> getOrders(){
+		List<Order> list = new ArrayList<>();
+		for (OrderItem x : items) {
+			list.add(x.getOrder());
+		}
+		return list;
+	}
 
 	public Product(Integer id, String name, Double price) {
 		this.id = id;
@@ -75,6 +88,13 @@ public class Product implements Serializable{
 		this.categorias = categorias;
 	}
 
+	public Set<OrderItem> getItems() {
+		return this.items;
+	}
+
+	public void setItems(Set<OrderItem> items) {
+		this.items = items;
+	}
 
 	@Override
 	public boolean equals(Object o) {
