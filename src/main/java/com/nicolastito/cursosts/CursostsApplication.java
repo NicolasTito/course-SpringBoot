@@ -2,12 +2,17 @@ package com.nicolastito.cursosts;
 
 import java.util.Arrays;
 
+import com.nicolastito.cursosts.domain.Address;
 import com.nicolastito.cursosts.domain.Categoria;
 import com.nicolastito.cursosts.domain.City;
+import com.nicolastito.cursosts.domain.Client;
 import com.nicolastito.cursosts.domain.Product;
 import com.nicolastito.cursosts.domain.State;
+import com.nicolastito.cursosts.domain.enums.TypeClient;
+import com.nicolastito.cursosts.repositories.AddressRepository;
 import com.nicolastito.cursosts.repositories.CategoriaRepository;
 import com.nicolastito.cursosts.repositories.CityRepository;
+import com.nicolastito.cursosts.repositories.ClientRepository;
 import com.nicolastito.cursosts.repositories.ProductRepository;
 import com.nicolastito.cursosts.repositories.StateRepository;
 
@@ -27,6 +32,10 @@ public class CursostsApplication implements CommandLineRunner{
 	private StateRepository stateRepository;
 	@Autowired
 	private CityRepository cityRepository;
+	@Autowired
+	private ClientRepository clientRepository;
+	@Autowired
+	private AddressRepository addressRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursostsApplication.class, args);
@@ -61,10 +70,18 @@ public class CursostsApplication implements CommandLineRunner{
 
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		productRepository.saveAll(Arrays.asList(p1, p2, p3));
-		
+
 		stateRepository.saveAll(Arrays.asList(est1, est2));
 		cityRepository.saveAll(Arrays.asList(c1, c2, c3));
 
-	}
+		Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", TypeClient.PESSOAFISICA);
 
+		cli1.getPhone().addAll(Arrays.asList("27363323", "93838393"));
+
+		Address ad1 = new Address(null, "Rua Flores", "300", "apt 303", "Jardim", "38220834", cli1, c1);
+		Address ad2 = new Address(null, "Avenida Matos", "105", "sala 800", "Centro", "38777012", cli1, c2);
+
+		clientRepository.saveAll(Arrays.asList(cli1));
+		addressRepository.saveAll(Arrays.asList(ad1, ad2));
+	}
 }
